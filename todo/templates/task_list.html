@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }} - Category: {{ task.category }} | Deadline: {{ task.deadline }} | Priority: {{ task.priority }} | Label: {{ task.label }}
+                {% if task.status == 'Pending' %}
+                    <form method="post" action="{% url 'update_status' task.id 'Done' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Mark as Done</button>
+                    </form>
+                {% else %}
+                    <span style="color: green;">(Done)</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_task' %}">Add Task</a>
+</body>
+</html>
